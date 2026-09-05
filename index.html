@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Trading Saham Langkah Lanjutan — ebook interaktif untuk memahami eksekusi dan analisis dasar.">
+<title>Trading Saham Lanjutan — Ebook Interaktif</title>
+<style>
+:root{
+  --bg:#f6f7f5; --surface:#fff; --surface2:#eef1ed; --text:#17201b; --muted:#66706a;
+  --line:#dce2dd; --accent:#173f2c; --accent2:#2e7653; --accent-soft:#e4efe8;
+  --warn:#8b6417; --warn-bg:#fff7df; --danger:#8b3737; --danger-bg:#fff0f0;
+  --shadow:0 18px 50px rgba(23,32,27,.08); --radius:22px; --sidebar:280px;
+}
+[data-theme="dark"]{
+  --bg:#101512; --surface:#171d19; --surface2:#202822; --text:#eef4ef; --muted:#a8b3ab;
+  --line:#303a33; --accent:#a8d7bb; --accent2:#70bd91; --accent-soft:#20392b;
+  --warn:#e4bd67; --warn-bg:#302814; --danger:#ef9a9a; --danger-bg:#321b1b;
+  --shadow:0 18px 50px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7}
+button,a{font:inherit}
+a{color:inherit}
+.progress{position:fixed;z-index:1000;top:0;left:0;height:4px;width:0;background:var(--accent2);transition:width .12s}
+.topbar{position:fixed;z-index:900;top:4px;left:0;right:0;height:64px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 22px}
+.brand{font-weight:850;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;gap:8px}
+.icon-btn,.menu-btn{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:8px 11px;cursor:pointer}
+.menu-btn{display:none}
+.layout{display:grid;grid-template-columns:var(--sidebar) 1fr;max-width:1500px;margin:auto}
+.sidebar{position:sticky;top:68px;height:calc(100vh - 68px);padding:30px 20px;border-right:1px solid var(--line);overflow:auto}
+.side-title{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:800;margin:12px 10px}
+.toc a{display:block;text-decoration:none;padding:10px 12px;border-radius:11px;color:var(--muted);font-size:14px;margin:3px 0}
+.toc a:hover,.toc a.active{background:var(--accent-soft);color:var(--accent);font-weight:750}
+.main{min-width:0}
+.hero{min-height:92vh;padding:150px 8vw 90px;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:500px;height:500px;border-radius:50%;right:-180px;top:80px;background:var(--accent-soft);opacity:.8;filter:blur(1px)}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--accent);font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+h1{font-size:clamp(48px,7vw,92px);line-height:.98;letter-spacing:-.065em;margin:18px 0 26px;max-width:900px}
+.hero p{font-size:clamp(18px,2vw,23px);color:var(--muted);max-width:760px}
+.quote{font-size:18px;font-weight:700;max-width:680px;margin:30px 0;padding:18px 20px;border-left:3px solid var(--accent2);background:var(--surface);border-radius:0 14px 14px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border:0;border-radius:13px;padding:13px 18px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 10px 25px rgba(23,63,44,.16)}
+.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line);box-shadow:none}
+section.chapter{padding:90px 8vw;border-top:1px solid var(--line);scroll-margin-top:74px}
+.chapter-head{display:grid;grid-template-columns:120px 1fr;gap:25px;align-items:start;margin-bottom:42px}
+.chapter-no{font-size:14px;font-weight:900;color:var(--accent2);letter-spacing:.1em}
+h2{font-size:clamp(32px,4vw,56px);line-height:1.05;letter-spacing:-.045em;margin:0 0 14px}
+h3{font-size:24px;line-height:1.2;margin:38px 0 12px;letter-spacing:-.02em}
+h4{margin:0 0 8px;font-size:17px}
+.lead{font-size:19px;color:var(--muted);max-width:780px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:24px 0}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:25px;box-shadow:0 8px 25px rgba(0,0,0,.025)}
+.card p:last-child{margin-bottom:0}
+.callout{padding:20px 22px;border-radius:18px;margin:24px 0;border:1px solid var(--line);background:var(--surface)}
+.callout.tip{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent2) 35%,var(--line))}
+.callout.warn{background:var(--warn-bg);border-color:color-mix(in srgb,var(--warn) 30%,var(--line))}
+.callout.danger{background:var(--danger-bg);border-color:color-mix(in srgb,var(--danger) 30%,var(--line))}
+.label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);display:block;margin-bottom:7px}
+.flow{display:flex;align-items:stretch;gap:0;margin:28px 0;overflow:auto}
+.flow .node{min-width:145px;flex:1;background:var(--surface);border:1px solid var(--line);padding:20px;text-align:center;font-weight:800}
+.flow .arrow{display:flex;align-items:center;padding:0 8px;color:var(--accent2);font-weight:900}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:24px 0}
+th,td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+tr:last-child td{border-bottom:0}
+.checklist{display:grid;gap:10px;margin:20px 0}
+.check{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent2);margin-top:3px}
+.check.done{opacity:.65;text-decoration:line-through}
+.quiz{background:var(--surface2);border-radius:20px;padding:24px;margin:25px 0}
+.quiz button{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px;padding:10px 14px;margin:5px;cursor:pointer}
+.quiz .result{font-weight:800;margin-top:12px}
+.chapter-nav{display:flex;justify-content:space-between;gap:12px;margin-top:55px;padding-top:28px;border-top:1px solid var(--line)}
+.chapter-nav a{flex:1;text-decoration:none}
+.chapter-nav a:last-child{text-align:right}
+.progress-wrap{margin:25px 0;background:var(--surface2);border-radius:99px;height:10px;overflow:hidden}
+.progress-inner{height:100%;width:0;background:var(--accent2);transition:width .2s}
+.footer{padding:70px 8vw;border-top:1px solid var(--line);color:var(--muted)}
+.small{font-size:14px;color:var(--muted)}
+@media(max-width:980px){
+  .layout{display:block}
+  .sidebar{position:fixed;z-index:850;left:-310px;top:68px;width:290px;background:var(--bg);box-shadow:var(--shadow);transition:left .25s;height:calc(100vh - 68px)}
+  .sidebar.open{left:0}
+  .menu-btn{display:block}
+}
+@media(max-width:700px){
+  h1{font-size:48px}
+  .grid,.grid.three{grid-template-columns:1fr}
+  .chapter-head{grid-template-columns:1fr;gap:8px}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="readProgress"></div>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <div class="brand">TRADING SAHAM: TAHAP LANJUTAN</div>
+  <div class="top-actions">
+    <button class="icon-btn" id="themeBtn">☾</button>
+    <button class="icon-btn" id="resetBtn">↺</button>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="side-title">Daftar Isi</div>
+  <nav class="toc">
+    <a href="#cover">Cover</a>
+    <a href="#bab1">01 — Mekanisme Eksekusi Order</a>
+    <a href="#bab2">02 — Anatomi Order Book</a>
+    <a href="#bab3">03 — Memahami Indeks (IHSG)</a>
+    <a href="#bab4">04 — Sektor & Industri</a>
+    <a href="#bab5">05 — Aksi Korporasi Dasar</a>
+    <a href="#bab6">06 — Laba & Laporan Keuangan</a>
+    <a href="#bab7">07 — Valuasi Sederhana (PER & PBV)</a>
+    <a href="#bab8">08 — Membaca Candlestick</a>
+    <a href="#bab9">09 — Memahami Tren Harga</a>
+    <a href="#bab10">10 — Menyusun Trading Plan</a>
+    <a href="#checklist">Checklist Akhir</a>
+  </nav>
+  <div class="side-title">Progress</div>
+  <div class="progress-wrap"><div class="progress-inner" id="chapterProgress"></div></div>
+  <div class="small" id="progressText">0% selesai</div>
+</aside>
+
+<main class="main">
+<section class="hero" id="cover">
+  <div class="hero-content">
+    <span class="eyebrow">Ebook Interaktif · Level 2</span>
+    <h1>Langkah Lanjutan<br>Trading Saham.</h1>
+    <p>Setelah menguasai istilah dasar dan mindset, kini saatnya menyelami anatomi pasar, analisis, dan eksekusi.</p>
+    <a class="btn" href="#bab1">Mulai Bab 1 →</a>
+  </div>
+</section>
+
+<!-- BAB 1 -->
+<section class="chapter" id="bab1">
+  <div class="chapter-head"><div class="chapter-no">01 / 10</div><div><h2>Mekanisme Eksekusi Order</h2><p class="lead">Memasukkan order beli atau jual tidak hanya sekadar klik. Ada jenis-jenis order dan batasan harga yang perlu kamu pahami.</p></div></div>
+  
+  <h3>Limit Order vs Market Order</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="label">Limit Order</span>
+      <h4>Menentukan Harga Spesifik</h4>
+      <p>Kamu memesan saham di harga tertentu. Transaksi hanya terjadi jika harga pasar menyentuh angka yang kamu pasang. <em>(Lebih aman, tapi bisa tidak kebagian barang)</em>.</p>
+    </div>
+    <div class="card">
+      <span class="label">Market Order (Hajar Kanan/Kiri)</span>
+      <h4>Beli/Jual di Harga Saat Ini</h4>
+      <p>Mengeksekusi transaksi secara instan dengan mengambil harga terbaik yang tersedia di antrean pasar. <em>(Cepat dapat barang, tapi harganya bisa bergeser dari ekspektasi)</em>.</p>
+    </div>
+  </div>
+
+  <h3>Auto Rejection Atas (ARA) & Bawah (ARB)</h3>
+  <p>Bursa Efek Indonesia membatasi pergerakan harga maksimal dalam satu hari untuk mencegah volatilitas yang terlalu liar. Batasan persentase ini bervariasi berdasarkan rentang harga saham (biasanya 20% hingga 35%).</p>
+  <ul>
+    <li><strong>ARA:</strong> Harga saham naik mentok ke batas maksimal harian. Tidak ada lagi antrean jual (offer kosong).</li>
+    <li><strong>ARB:</strong> Harga saham turun mentok ke batas maksimal harian. Tidak ada lagi antrean beli (bid kosong).</li>
+  </ul>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c1a"><span>Saya mengerti perbedaan Limit dan Market Order.</span></label>
+    <label class="check"><input type="checkbox" data-check="c1b"><span>Saya paham fungsi ARA dan ARB sebagai pengaman volatilitas bursa.</span></label>
+  </div>
+  <div class="chapter-nav"><span></span><a class="btn" href="#bab2">Bab 2 →</a></div>
+</section>
+
+<!-- BAB 2 -->
+<section class="chapter" id="bab2">
+  <div class="chapter-head"><div class="chapter-no">02 / 10</div><div><h2>Anatomi Order Book</h2><p class="lead">Order book adalah jendela utama untuk melihat dinamika Supply dan Demand secara real-time.</p></div></div>
+  
+  <h3>Membaca Kedalaman (Depth)</h3>
+  <p>Order book menampilkan antrean <strong>Bid (Beli)</strong> dan <strong>Offer/Ask (Jual)</strong> beserta jumlah lot yang mengantre di setiap titik harga.</p>
+  
+  <table style="max-width:500px">
+    <thead>
+      <tr><th>Bid Vol</th><th>Bid (Harga)</th><th>Offer (Harga)</th><th>Offer Vol</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>15.000</td><td>1.000</td><td>1.010</td><td>5.200</td></tr>
+      <tr><td>8.500</td><td>990</td><td>1.020</td><td>12.000</td></tr>
+      <tr><td>10.000</td><td>980</td><td>1.030</td><td>4.500</td></tr>
+    </tbody>
+  </table>
+  
+  <p><strong>Analisis Ringkas:</strong> Jika kamu ingin beli instan (Market Order), kamu harus "Hajar Kanan" di harga Offer (1.010). Jika kamu pasang Limit Order beli di 1.000, kamu harus antre bersama 15.000 lot lainnya.</p>
+
+  <div class="callout warn">
+    <span class="label">Hati-hati Fake Order</span>
+    Antrean lot yang sangat tebal di Bid atau Offer kadang bisa dicabut (withdraw) secara tiba-tiba oleh institusi/big player. Jangan mengambil keputusan <em>hanya</em> berdasarkan tebal-tipisnya antrean.
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c2a"><span>Saya bisa membaca kolom harga dan volume di Order Book.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab1">← Bab 1</a><a class="btn" href="#bab3">Bab 3 →</a></div>
+</section>
+
+<!-- BAB 3 -->
+<section class="chapter" id="bab3">
+  <div class="chapter-head"><div class="chapter-no">03 / 10</div><div><h2>Memahami Indeks Saham (IHSG)</h2><p class="lead">Indeks adalah "suhu" pasar. Ia menunjukkan performa rata-rata bursa secara keseluruhan.</p></div></div>
+  
+  <h3>IHSG (Indeks Harga Saham Gabungan)</h3>
+  <p>IHSG mengukur kinerja seluruh saham yang tercatat di Bursa Efek Indonesia. Jika IHSG hijau (naik), artinya secara mayoritas kapitalisasi pasar sedang menguat. Jika merah, pasar sedang tertekan.</p>
+
+  <h3>Indeks Sempitan (Contoh: LQ45)</h3>
+  <p>Bursa juga memiliki indeks khusus. <strong>LQ45</strong> berisi 45 saham paling likuid dengan fundamental baik. Pemula sangat disarankan untuk memulai trading/investasi dari saham-saham yang masuk daftar indeks LQ45 atau IDX30 karena risikonya relatif lebih terukur (bukan saham gorengan).</p>
+
+  <div class="quiz" data-answer="b">
+    <strong>Jika IHSG sedang turun (merah) 2%, apakah berarti SEMUA saham pasti turun?</strong><br>
+    <button data-choice="a">Ya, karena IHSG mewakili semua saham.</button>
+    <button data-choice="b">Tidak, IHSG adalah rata-rata tertimbang. Bisa saja ada saham individu yang tetap naik.</button>
+    <div class="result"></div>
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c3a"><span>Saya memahami apa itu IHSG dan LQ45.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab2">← Bab 2</a><a class="btn" href="#bab4">Bab 4 →</a></div>
+</section>
+
+<!-- BAB 4 -->
+<section class="chapter" id="bab4">
+  <div class="chapter-head"><div class="chapter-no">04 / 10</div><div><h2>Sektor & Industri</h2><p class="lead">Uang di bursa sering kali berputar dari satu sektor ke sektor lainnya, ini disebut Rotasi Sektoral.</p></div></div>
+  
+  <p>Di BEI, saham dikelompokkan ke dalam beberapa sektor utama, antara lain:</p>
+  <div class="grid three">
+    <div class="card"><h4>Financials</h4><p>Bank, asuransi, multifinance. Motor penggerak utama IHSG (seperti BCA, BRI, Mandiri).</p></div>
+    <div class="card"><h4>Energy</h4><p>Perusahaan batu bara, minyak, gas. Sangat bergantung pada harga komoditas global.</p></div>
+    <div class="card"><h4>Consumer (Non-Cyclical)</h4><p>Barang konsumsi primer harian (makanan, minuman, minimarket). Saham defensif.</p></div>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">Strategi Rotasi</span>
+    Ketika suku bunga turun, sektor properti biasanya diuntungkan. Ketika harga minyak dunia naik, sektor energi melesat. Memahami isu makro ekonomi membantumu menebak sektor mana yang akan "manggung".
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c4a"><span>Saya sadar bahwa saham dibagi berdasarkan sektor bisnisnya.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab3">← Bab 3</a><a class="btn" href="#bab5">Bab 5 →</a></div>
+</section>
+
+<!-- BAB 5 -->
+<section class="chapter" id="bab5">
+  <div class="chapter-head"><div class="chapter-no">05 / 10</div><div><h2>Aksi Korporasi Dasar</h2><p class="lead">Perusahaan (emiten) sering melakukan tindakan yang memengaruhi harga dan jumlah saham di pasar.</p></div></div>
+  
+  <div class="grid">
+    <div class="card">
+      <span class="label">Dividen</span>
+      <h4>Bagi-Bagi Keuntungan</h4>
+      <p>Perusahaan membagikan sebagian laba bersihnya kepada pemegang saham berupa uang tunai. Ingat tanggal <em>Cum Date</em> (batas akhir beli untuk dapat dividen).</p>
+    </div>
+    <div class="card">
+      <span class="label">Stock Split</span>
+      <h4>Pemecahan Nilai Saham</h4>
+      <p>Harga saham dipecah menjadi lebih murah (misal 1:5) agar lebih terjangkau oleh investor ritel, tanpa mengubah nilai kapitalisasi pasarnya.</p>
+    </div>
+    <div class="card">
+      <span class="label">Right Issue</span>
+      <h4>Hak Memesan Efek Terlebih Dahulu</h4>
+      <p>Perusahaan menerbitkan saham baru untuk tambah modal. Investor lama diberi "hak" beli duluan dengan harga khusus agar kepemilikannya tidak terdilusi (menyusut).</p>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c5a"><span>Saya mengerti mekanisme Dividen, Stock Split, dan Right Issue.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab4">← Bab 4</a><a class="btn" href="#bab6">Bab 6 →</a></div>
+</section>
+
+<!-- BAB 6 -->
+<section class="chapter" id="bab6">
+  <div class="chapter-head"><div class="chapter-no">06 / 10</div><div><h2>Laba & Laporan Keuangan</h2><p class="lead">Analisis Fundamental dimulai dari membaca kesehatan mesin pencetak uangnya: Laporan Keuangan.</p></div></div>
+  
+  <h3>Komponen Utama Laporan Keuangan</h3>
+  <ul>
+    <li><strong>Pendapatan (Revenue/Sales):</strong> Total uang yang masuk dari penjualan (top line).</li>
+    <li><strong>Laba Bersih (Net Income):</strong> Uang yang tersisa setelah dipotong modal, beban operasional, pajak, dan bunga (bottom line). <em>Ini yang paling penting!</em></li>
+    <li><strong>Ekuitas (Equity):</strong> Harta bersih perusahaan (Total Aset dikurangi Total Utang).</li>
+  </ul>
+
+  <h3>Earning Per Share (EPS)</h3>
+  <p>Laba bersih dibagi jumlah total saham beredar. Ini menunjukkan berapa laba riil yang dihasilkan oleh setiap 1 lembar saham. EPS yang terus bertumbuh tiap kuartal adalah tanda perusahaan sehat.</p>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c6a"><span>Saya bisa membedakan Pendapatan dan Laba Bersih.</span></label>
+    <label class="check"><input type="checkbox" data-check="c6b"><span>Saya mengerti arti dari EPS.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab5">← Bab 5</a><a class="btn" href="#bab7">Bab 7 →</a></div>
+</section>
+
+<!-- BAB 7 -->
+<section class="chapter" id="bab7">
+  <div class="chapter-head"><div class="chapter-no">07 / 10</div><div><h2>Valuasi Sederhana (PER & PBV)</h2><p class="lead">Apakah harga saham saat ini murah, wajar, atau kemahalan? Angka rasio inilah jawabannya.</p></div></div>
+  
+  <div class="grid">
+    <div class="card">
+      <span class="label">PER (Price to Earning Ratio)</span>
+      <h4>Harga dibanding Laba</h4>
+      <p>Rumus: <strong>Harga Saham ÷ EPS</strong>.<br>Mengukur berapa tahun modalmu akan kembali jika perusahaan mencetak laba yang konstan. Secara kasar, PER di bawah 10x atau 15x sering dianggap murah, tapi bandingkan dulu dengan kompetitor di sektor yang sama.</p>
+    </div>
+    <div class="card">
+      <span class="label">PBV (Price to Book Value)</span>
+      <h4>Harga dibanding Nilai Buku</h4>
+      <p>Rumus: <strong>Harga Saham ÷ Nilai Buku per Lembar</strong>.<br>PBV = 1x artinya harga saham sama dengan modal perusahaan. PBV di bawah 1x dianggap <em>undervalued</em> (diskon), PBV tinggi berarti dihargai premium oleh pasar.</p>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    Jangan gunakan metrik ini sendirian. Saham ber-PER murah bisa jadi murah karena bisnisnya memang sedang menurun (Value Trap).
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c7a"><span>Saya mengerti konsep PER.</span></label>
+    <label class="check"><input type="checkbox" data-check="c7b"><span>Saya mengerti konsep PBV.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab6">← Bab 6</a><a class="btn" href="#bab8">Bab 8 →</a></div>
+</section>
+
+<!-- BAB 8 -->
+<section class="chapter" id="bab8">
+  <div class="chapter-head"><div class="chapter-no">08 / 10</div><div><h2>Membaca Candlestick</h2><p class="lead">Analisis Teknikal dimulai dengan membaca grafik. Candlestick (lilin) merekam pertempuran buyer dan seller dalam satuan waktu tertentu.</p></div></div>
+  
+  <h3>Elemen OHLC</h3>
+  <p>Setiap 1 candle menyimpan 4 informasi harga:</p>
+  <ul>
+    <li><strong>O (Open):</strong> Harga saat sesi perdagangan dibuka.</li>
+    <li><strong>H (High):</strong> Harga tertinggi yang pernah dicapai pada sesi tersebut (membentuk ekor/wick atas).</li>
+    <li><strong>L (Low):</strong> Harga terendah yang pernah dicapai (membentuk ekor/wick bawah).</li>
+    <li><strong>C (Close):</strong> Harga saat sesi perdagangan ditutup.</li>
+  </ul>
+
+  <div class="grid">
+    <div class="card">
+      <span class="label" style="color:var(--accent2)">Candle Hijau (Bullish)</span>
+      <p>Harga <strong>Close &gt; Open</strong>. Buyer menang pada sesi tersebut.</p>
+    </div>
+    <div class="card">
+      <span class="label" style="color:var(--danger)">Candle Merah (Bearish)</span>
+      <p>Harga <strong>Close &lt; Open</strong>. Seller menang dan menekan harga turun.</p>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c8a"><span>Saya memahami arti Open, High, Low, dan Close pada candlestick.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab7">← Bab 7</a><a class="btn" href="#bab9">Bab 9 →</a></div>
+</section>
+
+<!-- BAB 9 -->
+<section class="chapter" id="bab9">
+  <div class="chapter-head"><div class="chapter-no">09 / 10</div><div><h2>Memahami Tren Harga</h2><p class="lead">"Trend is your friend." Jangan pernah melawan arus besar pasar tanpa strategi yang matang.</p></div></div>
+  
+  <div class="grid three">
+    <div class="card">
+      <span class="label">Uptrend</span>
+      <h4>Tren Naik</h4>
+      <p>Grafik terus membentuk puncak yang lebih tinggi (<em>Higher High</em>) dan lembah yang lebih tinggi (<em>Higher Low</em>). <strong>Waktu terbaik untuk membeli.</strong></p>
+    </div>
+    <div class="card">
+      <span class="label">Downtrend</span>
+      <h4>Tren Turun</h4>
+      <p>Grafik membentuk puncak yang lebih rendah (<em>Lower High</em>) dan lembah lebih rendah (<em>Lower Low</em>). <strong>Disarankan untuk dijauhi pemula.</strong></p>
+    </div>
+    <div class="card">
+      <span class="label">Sideways</span>
+      <h4>Tren Mendatar</h4>
+      <p>Harga bergerak konsolidasi naik-turun dalam rentang harga (support & resistance) yang terbatas. Menunggu konfirmasi arah selanjutnya (breakout/breakdown).</p>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c9a"><span>Saya bisa membedakan Uptrend, Downtrend, dan Sideways.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab8">← Bab 8</a><a class="btn" href="#bab10">Bab 10 →</a></div>
+</section>
+
+<!-- BAB 10 -->
+<section class="chapter" id="bab10">
+  <div class="chapter-head"><div class="chapter-no">10 / 10</div><div><h2>Menyusun Trading Plan Sederhana</h2><p class="lead">Semua teori di atas percuma jika kamu trading pakai insting. Eksekusi butuh rencana yang ditulis rapi.</p></div></div>
+  
+  <p>Sebelum menekan tombol Buy, seorang trader wajib memiliki Trading Plan yang berisi 3 angka krusial:</p>
+
+  <div class="flow">
+    <div class="node">1. ENTRY<br><span class="small">Harga Beli ideal</span></div>
+    <div class="arrow">→</div>
+    <div class="node">2. TARGET PROFIT<br><span class="small">Area jual untung (TP)</span></div>
+    <div class="arrow">→</div>
+    <div class="node">3. STOP LOSS<br><span class="small">Batas toleransi rugi (SL)</span></div>
+  </div>
+
+  <div class="callout tip">
+    <span class="label">Risk to Reward Ratio</span>
+    Pastikan potensi untungmu (Reward) selalu lebih besar dari potensi rugimu (Risk). Minimal rasio 1:2. Contoh: Siap rugi 3% asalkan ada potensi untung 6%.
+  </div>
+
+  <div class="quiz" data-answer="a">
+    <strong>Kapan sebaiknya kamu menyusun Trading Plan?</strong><br>
+    <button data-choice="a">Sebelum pasar buka / sebelum klik Buy.</button>
+    <button data-choice="b">Setelah sahamnya dibeli, lihat kondisinya dulu.</button>
+    <div class="result"></div>
+  </div>
+
+  <div class="checklist">
+    <label class="check"><input type="checkbox" data-check="c10a"><span>Saya paham pentingnya Entry, Target Profit, dan Stop Loss.</span></label>
+  </div>
+  <div class="chapter-nav"><a class="btn secondary" href="#bab9">← Bab 9</a><a class="btn" href="#checklist">Checklist Akhir →</a></div>
+</section>
+
+<!-- CHECKLIST AKHIR -->
+<section class="chapter" id="checklist">
+  <div class="chapter-head"><div><h2>Checklist Kesiapan Level 2</h2><p class="lead">Pastikan fondasi analisis dan mekanisme pasarmu sudah kuat sebelum terjun menganalisis saham sendiri.</p></div></div>
+  
+  <div class="checklist" id="finalChecklist">
+    <label class="check"><input type="checkbox" data-check="f1"><span>Bab 1: Saya paham Market vs Limit Order.</span></label>
+    <label class="check"><input type="checkbox" data-check="f2"><span>Bab 2: Saya bisa membaca Bid & Offer pada Order Book.</span></label>
+    <label class="check"><input type="checkbox" data-check="f3"><span>Bab 3: Saya mengerti peran IHSG dan LQ45.</span></label>
+    <label class="check"><input type="checkbox" data-check="f4"><span>Bab 4: Saya mengetahui adanya klasifikasi sektor industri.</span></label>
+    <label class="check"><input type="checkbox" data-check="f5"><span>Bab 5: Saya paham dampak Dividen, Split, dan Right Issue.</span></label>
+    <label class="check"><input type="checkbox" data-check="f6"><span>Bab 6: Saya tahu apa itu Laba Bersih dan EPS.</span></label>
+    <label class="check"><input type="checkbox" data-check="f7"><span>Bab 7: Saya tahu cara menghitung kasar PER dan PBV.</span></label>
+    <label class="check"><input type="checkbox" data-check="f8"><span>Bab 8: Saya mengerti 4 elemen Candlestick (OHLC).</span></label>
+    <label class="check"><input type="checkbox" data-check="f9"><span>Bab 9: Saya bisa mengidentifikasi tren pergerakan harga.</span></label>
+    <label class="check"><input type="checkbox" data-check="f10"><span>Bab 10: Saya berjanji selalu memasang Stop Loss dan membuat Trading Plan.</span></label>
+  </div>
+  
+  <div class="card" id="completionCard">
+    <span class="label">Progress</span><h3 id="completionTitle">0 / 10 selesai</h3><p id="completionText">Tandai semua jika kamu sudah memahaminya.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="footer">
+  <strong>Trading Saham: Tahap Lanjutan</strong><br>
+  <span class="small">Rencanakan trading-mu, tradingkan rencanamu.</span>
+</footer>
+
+<script>
+const $ = (s,root=document)=>root.querySelector(s);
+const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
+const storageKey='trading-lanjut-checks-v2', themeKey='trading-lanjut-theme-v2';
+
+function loadChecks(){
+  let saved={}; try{saved=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){}
+  $$('[data-check]').forEach(el=>{
+    el.checked=!!saved[el.dataset.check];
+    el.closest('.check')?.classList.toggle('done',el.checked);
+  });
+  updateProgress();
+}
+function saveCheck(el){
+  let saved={}; try{saved=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){}
+  saved[el.dataset.check]=el.checked;
+  localStorage.setItem(storageKey,JSON.stringify(saved));
+  el.closest('.check')?.classList.toggle('done',el.checked);
+  updateProgress();
+}
+function updateProgress(){
+  const all=$$('[data-check]'), done=all.filter(x=>x.checked).length, pct=all.length?Math.round(done/all.length*100):0;
+  $('#chapterProgress').style.width=pct+'%'; $('#progressText').textContent=pct+'% selesai';
+  const finals=$$('#finalChecklist [data-check]'), fd=finals.filter(x=>x.checked).length;
+  $('#completionTitle').textContent=fd+' / '+finals.length+' selesai';
+  $('#completionText').textContent=fd===finals.length?'Luar Biasa! Kamu siap untuk mempraktekkan ilmu ini di akun demo / simulasi pasar.':'Tandai semua jika kamu sudah memahaminya.';
+}
+$$('[data-check]').forEach(el=>el.addEventListener('change',()=>saveCheck(el)));
+
+$$('.quiz').forEach(q=>{
+  $$('button',q).forEach(b=>b.addEventListener('click',()=>{
+    const result=$('.result',q), correct=q.dataset.answer;
+    if(!correct) return;
+    result.textContent=b.dataset.choice===correct?'✓ Tepat sekali.':'Belum tepat. Coba pahami lagi materinya.';
+  }));
+});
+
+function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem(themeKey,t);$('#themeBtn').textContent=t==='dark'?'☀':'☾'}
+setTheme(localStorage.getItem(themeKey)||'light');
+$('#themeBtn').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+$('#resetBtn').addEventListener('click',()=>{
+  if(confirm('Reset semua checklist?')){
+    localStorage.removeItem(storageKey);loadChecks();
+  }
+});
+$('#menuBtn').addEventListener('click',()=>$('#sidebar').classList.toggle('open'));
+$$('.toc a').forEach(a=>a.addEventListener('click',()=>$('#sidebar').classList.remove('open')));
+
+const chapters=$$('.chapter');
+const tocLinks=$$('.toc a');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-20% 0px -65% 0px',threshold:0});
+chapters.forEach(c=>observer.observe(c));
+
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  $('#readProgress').style.width=(h>0?(window.scrollY/h)*100:0)+'%';
+},{passive:true});
+
+loadChecks();
+</script>
+</body>
+</html>
